@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 
 @Composable
@@ -57,6 +58,7 @@ fun HeaderBlock(title: @Composable () -> Unit,
                 modifier: Modifier = Modifier,
                 navigationIcon: @Composable () -> Unit = {},
                 actions: @Composable RowScope.() -> Unit = {},
+                expandedHeight: Dp = TopAppBarDefaults.TopAppBarExpandedHeight,
                 windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
                 colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
                 scrollBehavior: TopAppBarScrollBehavior? = null){
@@ -64,6 +66,7 @@ fun HeaderBlock(title: @Composable () -> Unit,
         modifier,
         navigationIcon,
         actions,
+        expandedHeight,
         windowInsets,
         colors,
         scrollBehavior)
@@ -71,19 +74,19 @@ fun HeaderBlock(title: @Composable () -> Unit,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputDrawer(onDismissRequest: () -> Unit,
-                modifier: Modifier = Modifier,
-                sheetState: SheetState = rememberModalBottomSheetState(),
-                sheetMaxWidth: Dp = BottomSheetDefaults.SheetMaxWidth,
-                shape: Shape = BottomSheetDefaults.ExpandedShape,
-                containerColor: Color = BottomSheetDefaults.ContainerColor,
-                contentColor: Color = contentColorFor(containerColor),
-                tonalElevation: Dp = BottomSheetDefaults.Elevation,
-                scrimColor: Color = BottomSheetDefaults.ScrimColor,
-                dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
-                windowInsets: WindowInsets = BottomSheetDefaults.windowInsets,
-                properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties(),
-                content: @Composable ColumnScope.() -> Unit,){
+fun InputDrawer( onDismissRequest: () -> Unit,
+                 modifier: Modifier = Modifier,
+                 sheetState: SheetState = rememberModalBottomSheetState(),
+                 sheetMaxWidth: Dp = BottomSheetDefaults.SheetMaxWidth,
+                 shape: Shape = BottomSheetDefaults.ExpandedShape,
+                 containerColor: Color = BottomSheetDefaults.ContainerColor,
+                 contentColor: Color = contentColorFor(containerColor),
+                 tonalElevation: Dp = 0.dp,
+                 scrimColor: Color = BottomSheetDefaults.ScrimColor,
+                 dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
+                 contentWindowInsets: @Composable () -> WindowInsets = { BottomSheetDefaults.windowInsets },
+                 properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
+                 content: @Composable ColumnScope.() -> Unit,){
 
     ModalBottomSheet(onDismissRequest,
         modifier,
@@ -95,7 +98,7 @@ fun InputDrawer(onDismissRequest: () -> Unit,
         tonalElevation,
         scrimColor,
         dragHandle,
-        windowInsets,
+        contentWindowInsets,
         properties,
         content)
 }
