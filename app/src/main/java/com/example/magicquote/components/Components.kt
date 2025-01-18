@@ -1,31 +1,66 @@
 package com.example.magicquote.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheetProperties
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.magicquote.R
 
 
 @Composable
@@ -72,21 +107,162 @@ fun HeaderBlock(title: @Composable () -> Unit,
         scrollBehavior)
 }
 
+@Composable
+fun InputField(
+    contextEnabled: Boolean = true,
+    textStyle: TextStyle = LocalTextStyle.current,
+    quoteIsError: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+              // interactionSource: MutableInteractionSource? = null,
+    shape: Shape = OutlinedTextFieldDefaults.shape,
+    colorsTextField: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    colorsCard: CardColors = CardDefaults
+        .elevatedCardColors(containerColor = colorResource(R.color.Light_green3)) ,
+    //colorsCard: CardColors = CardDefaults.elevatedCardColors(),
+    onClickSave:() -> Unit={}){
+    ElevatedCard(modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp),
+        colors = colorsCard,
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 2.dp,
+            pressedElevation = 12.dp,
+            disabledElevation = 0.dp
+        )){
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(1.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TextButton(onClick = {}) {
+                Text("Deep Thoughts, haan?")
+            }
+            //Quote Field
+            OutlinedTextField(
+                "",
+                {},
+                textStyle = textStyle,
+                label = {
+                    Text("Quote")
+                },
+                placeholder = {
+                    Text("Enter your Quote ^_^")
+                },
+                leadingIcon = {
+                    Icon(
+                        ImageVector.vectorResource(id = R.drawable.baseline_brush_24),
+                        "quote Icon"
+                    )
+                },
+                trailingIcon = {},
+                suffix = {},
+                prefix = {},
+                // supportingText = {},
+                isError = quoteIsError,
+                visualTransformation = visualTransformation,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                shape = shape,
+                colors = colorsTextField
+            )
+
+            //Spacer(modifier = Modifier.padding())
+
+            //Context Field
+            OutlinedTextField(
+                "",
+                {},
+                enabled = contextEnabled,
+                textStyle = textStyle,
+                label = {
+                    Text("Context")
+                },
+                placeholder = {
+                    Text("Enter Context")
+                },
+                leadingIcon = {
+                    Icon(
+                        ImageVector.vectorResource(id = R.drawable.baseline_content_paste_go_24),
+                        "quote Icon"
+                    )
+                },
+                trailingIcon = {},
+                suffix = {},
+                prefix = {},
+                supportingText = {
+                    Text("(Optional)",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Left)
+                },
+                isError = false,
+                visualTransformation = visualTransformation,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                shape = shape,
+                colors = colorsTextField
+            )
+
+            Row(modifier=Modifier
+                .fillMaxWidth()
+                .padding(2.dp),
+                horizontalArrangement = Arrangement.Absolute.Center
+            ) {
+
+                ElevatedButton(
+                    onClick = { },
+                    elevation = ButtonDefaults.elevatedButtonElevation(
+                        defaultElevation = 12.dp,
+                        pressedElevation = 14.dp,
+                        disabledElevation = 0.dp
+                    ),
+                    colors = ButtonDefaults
+                        .elevatedButtonColors(containerColor = colorResource(R.color.Light_green))
+                ) {
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Icon(
+                        Icons.Default.Close, "Close Icon",
+                        //  tint = Color.Red
+                    )
+                    Spacer(modifier = Modifier.padding(8.dp))
+                }
+                Spacer(modifier = Modifier.padding(12.dp))
+                ElevatedButton(onClick = { },
+                    elevation = ButtonDefaults.elevatedButtonElevation(
+                        defaultElevation = 12.dp,
+                        pressedElevation = 14.dp,
+                        disabledElevation = 0.dp
+                    ),colors = ButtonDefaults
+                            .elevatedButtonColors(containerColor = colorResource(R.color.Light_green))
+                ) {
+                    Text("Save Bitchh🐾")
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(10.dp))
+        }
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputDrawer( onDismissRequest: () -> Unit,
-                 modifier: Modifier = Modifier,
-                 sheetState: SheetState = rememberModalBottomSheetState(),
-                 sheetMaxWidth: Dp = BottomSheetDefaults.SheetMaxWidth,
-                 shape: Shape = BottomSheetDefaults.ExpandedShape,
-                 containerColor: Color = BottomSheetDefaults.ContainerColor,
-                 contentColor: Color = contentColorFor(containerColor),
-                 tonalElevation: Dp = 0.dp,
-                 scrimColor: Color = BottomSheetDefaults.ScrimColor,
-                 dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
-                 contentWindowInsets: @Composable () -> WindowInsets = { BottomSheetDefaults.windowInsets },
-                 properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
-                 content: @Composable ColumnScope.() -> Unit,){
+fun InputDrawer(onDismissRequest: () -> Unit,
+                modifier: Modifier = Modifier,
+                sheetState: SheetState = rememberModalBottomSheetState(),
+                sheetMaxWidth: Dp = BottomSheetDefaults.SheetMaxWidth,
+                shape: Shape = BottomSheetDefaults.ExpandedShape,
+                containerColor: Color = colorResource(R.color.Light_green1),
+                 //containerColor: Color = BottomSheetDefaults.ContainerColor,
+                contentColor: Color = contentColorFor(containerColor),
+                tonalElevation: Dp = 0.dp,
+                scrimColor: Color = BottomSheetDefaults.ScrimColor,
+                dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
+                contentWindowInsets: @Composable () -> WindowInsets = { BottomSheetDefaults.windowInsets },
+                properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
+                content: @Composable ColumnScope.() -> Unit,
+                 ){
 
     ModalBottomSheet(onDismissRequest,
         modifier,
