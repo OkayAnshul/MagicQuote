@@ -13,6 +13,7 @@
     <color name="Light_green3">#bbe7c9</color> //Card Background
     <color name="Top_header">#b7debf</color> //Top Header
     <color name="App_background">#c2e5d3</color> //App background
+    <color name="TopBr_background">#c9e6ce</color> //TopBar background
     <color name="Dark_green">#FF4CAF50</color> //accent color
     <color name="Dark_green1">#b4e5c4</color>
     <color name="Dark_text">#FF1B1B1B</color> //text color
