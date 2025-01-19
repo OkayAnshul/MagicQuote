@@ -1,7 +1,5 @@
 package com.example.magicquote.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -10,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -18,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -55,7 +51,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -70,7 +65,8 @@ fun MagicLayout(modifier: Modifier = Modifier,
                 snackbarHost: @Composable () -> Unit = {},
                 floatingActionButton: @Composable () -> Unit = {},
                 floatingActionButtonPosition: FabPosition = FabPosition.End,
-                containerColor: Color = MaterialTheme.colorScheme.background,
+                //containerColor: Color = MaterialTheme.colorScheme.background,
+                containerColor: Color =colorResource(R.color.App_background) ,
                 contentColor: Color = contentColorFor(containerColor),
                 contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
                 content: @Composable (PaddingValues) -> Unit){
@@ -95,7 +91,15 @@ fun HeaderBlock(title: @Composable () -> Unit,
                 actions: @Composable RowScope.() -> Unit = {},
                 expandedHeight: Dp = TopAppBarDefaults.TopAppBarExpandedHeight,
                 windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
-                colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+                //colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+                colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorResource(R.color.Light_green3),
+                    //colorResource(id = R.color.Top_header), // Color for the app bar background
+                     scrolledContainerColor = Color.Transparent, // Color when the app bar scrolls (optional)
+                     navigationIconContentColor = Color.White, // Color for navigation icons
+                     titleContentColor = Color.Black, // Color for the title text
+                     actionIconContentColor = Color.White // Color for action icons
+),
                 scrollBehavior: TopAppBarScrollBehavior? = null){
     CenterAlignedTopAppBar(title,
         modifier,
@@ -121,13 +125,14 @@ fun InputField(
     colorsCard: CardColors = CardDefaults
         .elevatedCardColors(containerColor = colorResource(R.color.Light_green3)) ,
     //colorsCard: CardColors = CardDefaults.elevatedCardColors(),
-    onClickSave:() -> Unit={}){
+    onClickSave:() -> Unit={},
+    onClickClose:() -> Unit={}){
     ElevatedCard(modifier = Modifier
         .fillMaxWidth()
-        .padding(10.dp),
+        .padding(6.dp),
         colors = colorsCard,
         elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 2.dp,
+            defaultElevation = 4.dp,
             pressedElevation = 12.dp,
             disabledElevation = 0.dp
         )){
@@ -156,9 +161,9 @@ fun InputField(
                         "quote Icon"
                     )
                 },
-                trailingIcon = {},
-                suffix = {},
-                prefix = {},
+//                trailingIcon = {},
+//                suffix = {},
+//                prefix = {},
                 // supportingText = {},
                 isError = quoteIsError,
                 visualTransformation = visualTransformation,
@@ -188,9 +193,9 @@ fun InputField(
                         "quote Icon"
                     )
                 },
-                trailingIcon = {},
-                suffix = {},
-                prefix = {},
+//                trailingIcon = {},
+//                suffix = {},
+//                prefix = {},
                 supportingText = {
                     Text("(Optional)",
                         modifier = Modifier.fillMaxWidth(),
@@ -211,7 +216,7 @@ fun InputField(
             ) {
 
                 ElevatedButton(
-                    onClick = { },
+                    onClick = {onClickClose()},
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 12.dp,
                         pressedElevation = 14.dp,
@@ -228,7 +233,7 @@ fun InputField(
                     Spacer(modifier = Modifier.padding(8.dp))
                 }
                 Spacer(modifier = Modifier.padding(12.dp))
-                ElevatedButton(onClick = { },
+                ElevatedButton(onClick = {onClickSave()},
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 12.dp,
                         pressedElevation = 14.dp,
