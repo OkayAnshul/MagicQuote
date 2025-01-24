@@ -18,4 +18,5 @@
     <color name="Dark_green1">#b4e5c4</color>
     <color name="Dark_text">#FF1B1B1B</color> //text color
     <color name="Muted_gray_green">#FF6D6D6D</color> //Secondary text color
+    <color name="title_Color_Header">#36443a</color> //Main Header title color
 </resources>
