@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomSheetDefaults
@@ -43,6 +46,8 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +61,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.magicquote.R
+import com.example.magicquote.dataBase.Quote
 
 
 @Composable
@@ -125,10 +131,15 @@ fun InputField(
     colorsCard: CardColors = CardDefaults
         .elevatedCardColors(containerColor = colorResource(R.color.Light_green3)) ,
     //colorsCard: CardColors = CardDefaults.elevatedCardColors(),
-    onClickSave:() -> Unit={},
+    onClickSave:(quote:Quote) -> Unit,
     onClickClose:() -> Unit={}){
+
+    val quote = remember { mutableStateOf<String>("") }
+    var qContext = remember { mutableStateOf<String?>("") }
+
     ElevatedCard(modifier = Modifier
         .fillMaxWidth()
+        .verticalScroll(rememberScrollState())
         .padding(6.dp),
         colors = colorsCard,
         elevation = CardDefaults.elevatedCardElevation(
@@ -146,8 +157,8 @@ fun InputField(
             }
             //Quote Field
             OutlinedTextField(
-                "",
-                {},
+                quote.value,
+                {quote.value = it },
                 textStyle = textStyle,
                 label = {
                     Text("Quote")
@@ -176,38 +187,41 @@ fun InputField(
             //Spacer(modifier = Modifier.padding())
 
             //Context Field
-            OutlinedTextField(
-                "",
-                {},
-                enabled = contextEnabled,
-                textStyle = textStyle,
-                label = {
-                    Text("Context")
-                },
-                placeholder = {
-                    Text("Enter Context")
-                },
-                leadingIcon = {
-                    Icon(
-                        ImageVector.vectorResource(id = R.drawable.baseline_content_paste_go_24),
-                        "quote Icon"
-                    )
-                },
-//                trailingIcon = {},
-//                suffix = {},
-//                prefix = {},
-                supportingText = {
-                    Text("(Optional)",
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Left)
-                },
-                isError = false,
-                visualTransformation = visualTransformation,
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
-                shape = shape,
-                colors = colorsTextField
-            )
+            qContext.value?.let { qc ->
+                OutlinedTextField(
+                    value = qc,
+                    onValueChange = {qContext.value =it},
+                    modifier = Modifier,
+                    enabled = contextEnabled,
+                    textStyle = textStyle,
+                    label = {
+                        Text("Context")
+                    },
+                    placeholder = {
+                        Text("Enter Context")
+                    },
+                    leadingIcon = {
+                        Icon(
+                            ImageVector.vectorResource(id = R.drawable.baseline_content_paste_go_24),
+                            "quote Icon"
+                        )
+                    },
+        //                trailingIcon = {},
+        //                suffix = {},
+        //                prefix = {},
+                    supportingText = {
+                        Text("(Optional)",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Left)
+                    },
+                    isError = false,
+                    visualTransformation = visualTransformation,
+                    keyboardOptions = keyboardOptions,
+                    keyboardActions = keyboardActions,
+                    shape = shape,
+                    colors = colorsTextField
+                )
+            }
 
             Row(modifier=Modifier
                 .fillMaxWidth()
@@ -216,7 +230,11 @@ fun InputField(
             ) {
 
                 ElevatedButton(
-                    onClick = {onClickClose()},
+                    onClick = {
+                        onClickClose()
+                        qContext.value = ""
+                        quote.value = ""
+                              },
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 12.dp,
                         pressedElevation = 14.dp,
@@ -233,7 +251,11 @@ fun InputField(
                     Spacer(modifier = Modifier.padding(8.dp))
                 }
                 Spacer(modifier = Modifier.padding(12.dp))
-                ElevatedButton(onClick = {onClickSave()},
+                ElevatedButton(onClick = {
+                    onClickSave(Quote(text = quote.value, context = qContext.value))
+                    qContext.value = ""
+                    quote.value = ""
+                                         },
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 12.dp,
                         pressedElevation = 14.dp,
@@ -254,7 +276,9 @@ fun InputField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputDrawer(onDismissRequest: () -> Unit,
-                modifier: Modifier = Modifier,
+                modifier: Modifier = Modifier
+                    //.verticalScroll(rememberScrollState())
+                        ,
                 sheetState: SheetState = rememberModalBottomSheetState(),
                 sheetMaxWidth: Dp = BottomSheetDefaults.SheetMaxWidth,
                 shape: Shape = BottomSheetDefaults.ExpandedShape,
