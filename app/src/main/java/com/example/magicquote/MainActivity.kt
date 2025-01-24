@@ -4,23 +4,20 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.annotation.ColorRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -29,7 +26,6 @@ import com.example.magicquote.components.MagicLayout
 import com.example.magicquote.navigation.MagicNav
 import com.example.magicquote.navigation.ScreenNav
 import com.example.magicquote.quoteViewModel.MagicViewModel
-import com.example.magicquote.screenLayout.OfflineQuote
 import com.example.magicquote.ui.theme.MagicQuoteTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,7 +55,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CombinedFrame(viewModel: MagicViewModel){
     val navController: NavHostController = rememberNavController()
-    MagicLayout(topBar = { HeaderBlock({ Text("Magic Quote") }
+    val color= Color(0xFF36443a)
+    MagicLayout(topBar = { HeaderBlock(title = { Text(text = "Magic Quote",
+        color =
+        //color,
+        colorResource(R.color.title_Color_Header),
+        fontSize = 28.sp,
+        fontWeight = FontWeight.SemiBold,
+
+        fontFamily = FontFamily(Font( R.font.calligraffitti)))
+        }
     )},
         floatingActionButton = {
             FloatingActionButton(onClick = {viewModel.floatingButtonAction(navHostController =navController )}) {
