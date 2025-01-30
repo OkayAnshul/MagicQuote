@@ -1,17 +1,16 @@
-package com.example.magicquote.dataBase
+package com.example.magicquote.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-
 @Entity("quote_table_offline")
-data class Quote(
+data class QuoteTemplate(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     @ColumnInfo("quote")
-    val text: String,
+    val quote: String,
     @ColumnInfo("context")
     val context:String?=null,
     @ColumnInfo("author")

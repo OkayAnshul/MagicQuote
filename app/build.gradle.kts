@@ -43,10 +43,14 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.datastore:datastore-preferences:1.1.2")
 
-    //Hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    implementation(libs.androidx.compose.material3)
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    // Hilt with Jetpack Compose (Navigation)
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     //lifecycle
     val lifecycle_version = "2.8.7"
     // ViewModel

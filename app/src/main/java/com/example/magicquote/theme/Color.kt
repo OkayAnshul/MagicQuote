@@ -1,4 +1,4 @@
-package com.example.magicquote.ui.theme
+package com.example.magicquote.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.example.magicquote.dataBase
+package com.example.magicquote.database
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -6,12 +6,13 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
+
 class QuoteRepository @Inject constructor(private val dao: QuoteDao) {
 
-    suspend fun addQuote(quote: Quote){
+    suspend fun addQuote(quote: QuoteTemplate){
         dao.addQuote(quote)
     }
-    suspend fun removeQuote(quote: Quote){
+    suspend fun removeQuote(quote: QuoteTemplate){
         dao.removeQuote(quote)
     }
     suspend fun removeAll(){
@@ -20,10 +21,11 @@ class QuoteRepository @Inject constructor(private val dao: QuoteDao) {
     suspend fun getQuoteById(id:Long){
         dao.getQuoteById(id)
     }
-    suspend fun updateQuote(quote: Quote){
+    suspend fun updateQuote(quote: QuoteTemplate){
         dao.updateQuote(quote)
     }
-    fun getAllQuote():Flow<List<Quote>> =
+    fun getAllQuote(): Flow<List<QuoteTemplate>> =
         dao.getAllQuotes().flowOn(Dispatchers.IO)
             .conflate()
+
 }

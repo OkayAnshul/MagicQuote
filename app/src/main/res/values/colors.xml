@@ -19,4 +19,8 @@
     <color name="Dark_text">#FF1B1B1B</color> //text color
     <color name="Muted_gray_green">#FF6D6D6D</color> //Secondary text color
     <color name="title_Color_Header">#36443a</color> //Main Header title color
+    <color name="purple_light">#e5cce5</color>
+    <color name="purple_light1">#f2e5f2</color>
+    <color name="blue1">#83aeb7</color>
+    <color name="purple_light2">#f4dcf4</color>
 </resources>
